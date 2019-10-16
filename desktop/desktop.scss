@@ -24,7 +24,9 @@
     box-shadow: 0px 0px 2px;
     border-radius: 10px;
 }
-
+.category-box-grid-item a:hover {
+    color: $primary !important;
+}
 .category-boxes-with-topics .category-box-heading {
     padding: 15px 15px 10px; 
     background-color: $header_primary;
