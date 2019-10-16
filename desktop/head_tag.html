@@ -1,0 +1,155 @@
+<script type="text/x-handlebars" data-template-name="components/categories-boxes-with-topics">
+
+    {{#each categories as |c|}}
+	    <div class='category-box-grid-item'>
+			<div class='category-box-inner-wrapper'>
+			  <div class='category-box-heading'>
+				<a href={{c.url}}>   
+				  <span class='category-box-title'>
+					{{#if c.read_restricted}}
+					  {{d-icon 'lock'}}
+					{{/if}}
+					{{category-title-before category=c}}
+					{{c.name}}
+				  </span>
+				  <span class='category-box-more-topics'>All topics ⇗</span>
+				</a>
+			  </div>
+
+			<div class='category-box-topics-header'>
+				<div class='category-box-topic-title-header'>Recent Topics</div>
+				<div class='category-box-icon'><svg class='icon' viewBox='0 0 24 30' xmlns='http://www.w3.org/2000/svg'><path d='M20.167,2.704h-9.33c-1.617,0-2.933,1.316-2.933,2.933V7.36H3.833C2.216,7.36,0.9,8.676,0.9,10.293v6.998  c0,1.617,1.315,2.933,2.933,2.933h0.088v1.888c0,0.48,0.286,0.909,0.73,1.093c0.147,0.061,0.302,0.091,0.454,0.091  c0.308,0,0.608-0.121,0.836-0.347l2.724-2.725h4.498c1.617,0,2.933-1.315,2.933-2.933v-0.96l1.963,1.971  c0.228,0.221,0.526,0.337,0.831,0.337c0.157,0,0.316-0.031,0.467-0.095c0.446-0.189,0.723-0.607,0.723-1.093v-1.884h0.088  c1.617,0,2.933-1.315,2.933-2.933V5.637C23.1,4.02,21.784,2.704,20.167,2.704z M14.896,17.292c0,0.955-0.777,1.732-1.733,1.732  H8.416c-0.159,0-0.312,0.063-0.425,0.176L5.12,22.112v-2.488c0-0.332-0.269-0.6-0.6-0.6H3.833c-0.956,0-1.733-0.777-1.733-1.732  v-6.998c0-0.956,0.777-1.733,1.733-1.733h9.33c0.956,0,1.733,0.777,1.733,1.733V17.292z M21.9,12.635  c0,0.955-0.777,1.732-1.733,1.732h-0.688c-0.331,0-0.6,0.269-0.6,0.6l0.021,2.481l-2.805-2.817v-4.338  c0-1.617-1.315-2.933-2.933-2.933h-4.06V5.637c0-0.956,0.777-1.733,1.733-1.733h9.33c0.956,0,1.733,0.777,1.733,1.733V12.635z'/></svg></div>
+				<div class='category-box-icon'><svg class='icon' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 1024 1024'><path d='M150.7 409.6c0 199.6 161.7 361.4 361.4 361.4 199.6 0 361.4-161.7 361.4-361.4 0-199.6-161.7-361.4-361.4-361.4 -99.4 0-193.2 40.5-261.1 111.4h68.3c13.2 0 24.1 10.8 24.1 24.1 0 13.2-10.8 24.1-24.1 24.1H198.8c-13.2 0-24.1-10.8-24.1-24.1V63.3c0-13.2 10.8-24.1 24.1-24.1 13.2 0 24.1 10.8 24.1 24.1v56.3C299.2 43.4 402.5 0 512 0c226.3 0 409.6 183.3 409.6 409.6 0 226.3-183.3 409.6-409.6 409.6 -226.3 0-409.6-183.3-409.6-409.6 0-13.2 10.8-24.1 24.1-24.1 13.2 0 24.1 10.8 24.1 24.1H150.7z'/><path d='M473.9 250.8c0-13.2 10.8-24 24-24s24 10.8 24 24l-0.1 181.5 103.4 86.1c10.2 8.5 11.6 23.6 3.1 33.8 -8.5 10.2-23.6 11.6-33.8 3.1l-112-93.3c-5.3-4.4-8.7-11.1-8.7-18.4l0.1-192.7L473.9 250.8z'/></svg></div>
+			</div>
+			<!- <hr class='category-box-rule'> -->
+						
+			  {{#each c.topics as |topic|}}
+				  <div class='category-box-topics'>
+					{{#if c.topics}}
+						<div class='category-box-topic-title'>
+							{{raw "topic-status" topic=topic}}
+							{{topic-link topic}}
+							{{#if topic.featured_link}}
+								{{topic-featured-link topic}}
+							{{/if}}
+							{{topic-post-badges newPosts=topic.totalUnread unseen=topic.unseen url=topic.lastUnreadUrl}}
+						</div>
+						<div class="category-box-topic-stats">
+							{{raw "list/posts-count-column" topic=topic tagName="span"}}
+						</div>
+						<div class="category-box-topic-activity">
+							<a href="{{topic.lastPostUrl}}" title="{{topic.bumpedAtTitle}}">{{format-date topic.bumpedAt format="tiny" noTitle="true"}}</a>
+						</div>
+					{{/if}}
+				  </div>
+				{{/each}}  
+			</div>
+	    </div>
+    {{/each}}
+
+    <div class="clearfix"></div>
+    {{categories-only categories=categories
+          latestTopicOnly=latestTopicOnly
+          showTopics="true"}}   
+</script>
+
+<script type="text/x-handlebars" data-template-name="preferences/interface">
+   {{#if showThemeSelector}}
+    <div class="control-group theme">
+      <label class="control-label">{{i18n 'user.theme'}}</label>
+      <div class="controls">
+        {{combo-box content=userSelectableThemes value=themeId}}
+      </div>
+      {{#if showThemeSetDefault}}
+        <div class="controls">
+          {{preference-checkbox labelKey="user.theme_default_on_all_devices" checked=makeThemeDefault}}
+        </div>
+      {{/if}}
+    </div>
+    {{/if}}
+    
+    <div class="control-group text-size">
+      <label class="control-label">{{i18n 'user.text_size.title'}}</label>
+      <div class="controls">
+        {{combo-box valueAttribute="value" content=textSizes value=textSize onSelect=(action "selectTextSize")}}
+      </div>
+      {{#if showTextSetDefault}}
+        <div class="controls">
+          {{preference-checkbox labelKey="user.text_size_default_on_all_devices" checked=makeTextSizeDefault}}
+        </div>
+      {{/if}}
+    </div>
+    
+    {{#if siteSettings.allow_user_locale}}
+      <div class="control-group pref-locale">
+        <label class="control-label">{{i18n 'user.locale.title'}}</label>
+        <div class="controls">
+          {{combo-box filterable=true valueAttribute="value" content=availableLocales value=model.locale none="user.locale.default"}}
+        </div>
+        <div class='instructions'>
+          {{i18n 'user.locale.instructions'}}
+        </div>
+      </div>
+    {{/if}}
+    
+    
+    <div class="control-group home">
+      <label class="control-label">{{i18n 'user.home'}}</label>
+      <div class="controls">
+        {{combo-box content=userSelectableHome valueAttribute="value" value=model.user_option.homepage_id}}
+      </div>
+    </div>
+    <div class="control-group catStyle">
+        <label class="control-label">Category Page Style</label>
+        <button id="konyOn" class="cat-select-btn" onclick="useOldCat();">Old Style</button>
+        <button id="konyOff" class="cat-select-btn" onclick="useNewCat();">New Style</button>
+    </div>
+    <div class="control-group other">
+      <label class="control-label">{{i18n 'user.other_settings'}}</label>
+
+      {{preference-checkbox labelKey="user.external_links_in_new_tab" checked=model.user_option.external_links_in_new_tab class="pref-external-links"}}
+      {{preference-checkbox labelKey="user.enable_quoting" checked=model.user_option.enable_quoting class="pref-enable-quoting"}}
+      {{preference-checkbox labelKey="user.enable_defer" checked=model.user_option.enable_defer class="pref-defer-undread"}}
+      {{#if siteSettings.automatically_unpin_topics}}
+        {{preference-checkbox labelKey="user.automatically_unpin_topics" checked=model.user_option.automatically_unpin_topics  class="pref-auto-unpin"}}
+      {{/if}}
+      {{preference-checkbox labelKey="user.hide_profile_and_presence" checked=model.user_option.hide_profile_and_presence  class="pref-hide-profile"}}
+      {{#if isiPad}}
+        {{preference-checkbox labelKey="user.enable_physical_keyboard" checked=disableSafariHacks  class="pref-safari-hacks"}}
+      {{/if}}
+      {{preference-checkbox labelKey="user.dynamic_favicon" checked=model.user_option.dynamic_favicon  class="pref-dynamic-favicon"}}
+      <div class='controls controls-dropdown pref-page-title'>
+        <label for="user-email-level">{{i18n 'user.title_count_mode.title'}}</label>
+        {{combo-box valueAttribute="value"
+                    content=titleCountModes
+                    value=model.user_option.title_count_mode
+                    id="user-title-count-mode"}}
+      </div>
+    </div>
+    
+    {{plugin-outlet name="user-preferences-interface" args=(hash model=model save=(action "save"))}}
+    
+    <br/>
+    
+    {{plugin-outlet name="user-custom-controls" args=(hash model=model)}}
+    
+    <div class="control-group save-button">
+      <div class="controls">
+        {{partial 'user/preferences/save-button'}}
+      </div>
+    </div>
+
+</script>
+<script type="text/discourse-plugin" version="0.8">
+         if($.cookie("oldCategories") === "true") {
+            document.getElementById("main").classList.add("kony");
+        }
+</script>
+<script>
+    function useOldCat() {
+        $.cookie('oldCategories', 'true', { expires: 7, path: '/' });
+    }
+    function useNewCat() {
+        $.cookie('oldCategories', 'false', { expires: -7, path: '/' });
+    }
+</script>
