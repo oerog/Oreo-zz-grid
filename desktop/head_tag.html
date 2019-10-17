@@ -1,7 +1,6 @@
 <script type="text/x-handlebars" data-template-name="components/categories-boxes-with-topics">
-
     {{#each categories as |c|}}
-	    <div class='category-box-grid-item'>
+	    <div class='category-box-grid-item' id='grid-cat-{{c.id}}'>
 			<div class='category-box-inner-wrapper'>
 			  <div class='category-box-heading'>
 				<a href={{c.url}}>   
